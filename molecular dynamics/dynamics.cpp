@@ -127,8 +127,8 @@ void moleculardynamic(const int& n_particles, const int& n_iterations, const dou
 		}
 		MPI_Barrier(MPI_COMM_WORLD);
 		double total_energy;
-		MPI_Allreduce(&energy, &total_energy, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-		potential = total_energy;
+		MPI_Allreduce(&potential, &total_energy, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+		#potential = total_energy;
 		kinetic = 0.0;
 
 		for (auto i = 0u; i < ions.size(); i++)
@@ -142,7 +142,7 @@ void moleculardynamic(const int& n_particles, const int& n_iterations, const dou
 			}
 		}
 
-		energy.push_back((kinetic + potential) / 2);
+		energy.push_back((kinetic + total_energy) / 2);
 		kinetic_energy.push_back(kinetic / 2);
 
 		if (rank == 0)
